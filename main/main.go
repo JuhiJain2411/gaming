@@ -24,6 +24,6 @@ func (i *InMemoryPlayerStore) AddPlayerScore(name string) {
 
 // PlayerServer implements Handler. Has a func ServeHTTP.
 func main() {
-	handler := &players.PlayerServer{&InMemoryPlayerStore{}}
+	handler := &players.PlayerServer{NewInMemoryPlayerStore()}
 	log.Fatal(http.ListenAndServe(":8080", handler))
 }

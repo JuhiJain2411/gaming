@@ -1,6 +1,7 @@
 package players
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -12,6 +13,9 @@ type StubPlayerStore struct {
 
 func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	score := s.scores[name]
+	if score == 0 {
+		return http.StatusNotFound
+	}
 	return score
 }
 
@@ -31,6 +35,20 @@ func TestPlayers(t *testing.T) {
 
 		got := response.Body.String()
 		want := "20"
+
+		if got != want {
+			t.Errorf("Wanted %v, got %v", want, got)
+		}
+	})
+
+	t.Run("Missing Player", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/players/Julie", nil)
+		response := httptest.NewRecorder()
+
+		playerServer.ServeHTTP(response, request)
+
+		got := response.Body.String()
+		want := fmt.Sprint(http.StatusNotFound)
 
 		if got != want {
 			t.Errorf("Wanted %v, got %v", want, got)

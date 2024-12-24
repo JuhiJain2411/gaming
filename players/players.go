@@ -15,7 +15,7 @@ import (
 // Strategy Interface
 type PlayerStore interface {
 	GetPlayerScore(name string) int
-	AddPlayerScore(name string, score int)
+	AddPlayerScore(name string)
 }
 
 // Concrete Strategy & Strategy Context
@@ -33,7 +33,7 @@ type PlayerServer struct {
 func (p *PlayerServer) ServeHTTP(response http.ResponseWriter, r *http.Request) {
 	playerName := strings.TrimPrefix(r.URL.Path, "/players/")
 	if r.Method == http.MethodPost {
-		p.Store.AddPlayerScore(playerName, 0)
+		p.Store.AddPlayerScore(playerName)
 		return
 	} else {
 		fmt.Fprint(response, p.Store.GetPlayerScore(playerName))

@@ -19,8 +19,8 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	return score
 }
 
-func (s *StubPlayerStore) AddPlayerScore(name string, score int) {
-	s.scores[name] = score
+func (s *StubPlayerStore) AddPlayerScore(name string) {
+	s.scores[name]++
 }
 
 func TestPlayerGet(t *testing.T) {

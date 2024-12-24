@@ -12,6 +12,9 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	return 123
 }
 
+func (i *InMemoryPlayerStore) AddPlayerScore(name string, score int) {
+}
+
 // PlayerServer implements Handler. Has a func ServeHTTP.
 func main() {
 	handler := &players.PlayerServer{&InMemoryPlayerStore{}}

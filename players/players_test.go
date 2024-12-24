@@ -19,7 +19,11 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	return score
 }
 
-func TestPlayers(t *testing.T) {
+func (s *StubPlayerStore) AddPlayerScore(name string, score int) {
+	s.scores[name] = score
+}
+
+func TestPlayerGet(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{
 			"Jack": 20,
@@ -54,9 +58,30 @@ func TestPlayers(t *testing.T) {
 			t.Errorf("Wanted %v, got %v", want, got)
 		}
 	})
+}
 
+func TestPlayersPost(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int{
+			"Jack": 20,
+			"Jill": 10,
+		},
+	}
+	playerServer := &PlayerServer{&store}
 	t.Run("Record a win for a player", func(t *testing.T) {
 		//POST /players/{name}
+		request, _ := http.NewRequest(http.MethodPost, "/players/Julie", nil)
+		response := httptest.NewRecorder()
 
+		playerServer.ServeHTTP(response, request)
+		_, ok := store.scores["Julie"]
+
+		// assertions
+		if len(store.scores) != 3 {
+			t.Errorf("Wanted %v, got %v", 3, len(store.scores))
+		}
+		if !ok {
+			t.Errorf("Player score not added")
+		}
 	})
 }

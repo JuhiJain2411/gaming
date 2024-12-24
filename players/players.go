@@ -14,22 +14,22 @@ import (
 
 // Strategy Interface
 type PlayerStore interface {
-	getPlayerScore(name string) int
+	GetPlayerScore(name string) int
 }
 
 // Concrete Strategy & Strategy Context
 type PlayerServer struct {
 	// We give the struct a reference to the interface
 	// so that we can stub the interface when testing
-	// ServeHTTP and mock getPlayerScore function.
-	store PlayerStore
+	// ServeHTTP and mock GetPlayerScore function.
+	Store PlayerStore
 }
 
-/*func (p *PlayerServer) getPlayerScore(name string) int {
+/*func (p *PlayerServer) GetPlayerScore(name string) int {
 	return 20 // p.winCount
 }*/
 
 func (p *PlayerServer) ServeHTTP(response http.ResponseWriter, r *http.Request) {
 	playerName := strings.TrimPrefix(r.URL.Path, "/players/")
-	fmt.Fprint(response, p.store.getPlayerScore(playerName))
+	fmt.Fprint(response, p.Store.GetPlayerScore(playerName))
 }

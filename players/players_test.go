@@ -10,7 +10,7 @@ type StubPlayerStore struct {
 	scores map[string]int
 }
 
-func (s *StubPlayerStore) getPlayerScore(name string) int {
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	score := s.scores[name]
 	return score
 }
@@ -23,7 +23,7 @@ func TestPlayers(t *testing.T) {
 		},
 	}
 	playerServer := &PlayerServer{&store}
-	t.Run("Get number of getPlayerScore for a player", func(t *testing.T) {
+	t.Run("Get number of GetPlayerScore for a player", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/players/Jack", nil)
 		response := httptest.NewRecorder()
 

@@ -20,9 +20,7 @@ type PlayerStore interface {
 
 // Concrete Strategy & Strategy Context
 type PlayerServer struct {
-	// We give the struct a reference to the interface
-	// so that we can stub the interface when testing
-	// ServeHTTP and mock GetPlayerScore function.
+	// Dependency Injection
 	Store PlayerStore
 }
 
